@@ -2,7 +2,7 @@
 using RabbitMQ.Models;
 using System;
 
-namespace PublisherApp
+namespace PublisherExample
 {
     public class Publisher
     {

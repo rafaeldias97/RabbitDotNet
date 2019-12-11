@@ -2,7 +2,7 @@
 using RabbitMQ.Models;
 using System;
 
-namespace ConsoleApp
+namespace ConsumerExample
 {
     class ConsumerApp
     {
