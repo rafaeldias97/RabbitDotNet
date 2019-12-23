@@ -5,9 +5,9 @@ namespace RabbitMQ.Interfaces
 {
     public interface IRabbitMQ
     {
-        void publisher(string queue, string message);
+        void Publisher(string queue, string message);
         void On(string name, Action<string> cb);
-        string rpcPublisher(string queue, string message);
-        void rpcConsumer(string name, Func<string, string> cb);
+        string RPCPublisher(string queue, string message);
+        void RPCConsumer(string name, Func<string, string> cb);
     }
 }

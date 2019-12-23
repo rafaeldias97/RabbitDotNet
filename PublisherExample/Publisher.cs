@@ -17,10 +17,10 @@ namespace PublisherExample
 
             // Exemplo Publisher
             string mensagem = "ola";
-            rb.publisher("teste", mensagem);
+            rb.Publisher("teste", mensagem);
 
             // RPC Publisher
-            var res = rb.rpcPublisher("teste.a", mensagem);
+            var res = rb.RPCPublisher("teste.a", mensagem);
             Console.WriteLine(res);
         }
     }

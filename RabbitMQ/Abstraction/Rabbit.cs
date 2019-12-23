@@ -23,7 +23,7 @@ namespace RabbitMQ.Abstraction
             this.config = config;
         }
 
-        public void publisher(string queue, string message)
+        public void Publisher(string queue, string message)
         {
             var factory = config.CreateConnection();
             using (var connection = factory.CreateConnection())
@@ -80,15 +80,15 @@ namespace RabbitMQ.Abstraction
             }
         }
 
-        public string rpcPublisher(string queue, string message)
+        public string RPCPublisher(string queue, string message)
         {
             var res = "";
-            Thread t = new Thread(() => res = rpcPublisherThread(queue, message));
+            Thread t = new Thread(() => res = RPCPublisherThread(queue, message));
             t.Start();
             t.Join();
             return res;
         }
-        private string rpcPublisherThread(string queue, string message)
+        private string RPCPublisherThread(string queue, string message)
         {
             var factory = config.CreateConnection();
             using (var connection = factory.CreateConnection())
@@ -128,12 +128,12 @@ namespace RabbitMQ.Abstraction
             }
         }
 
-        public void rpcConsumer(string name, Func<string, string> cb)
+        public void RPCConsumer(string name, Func<string, string> cb)
         {
-            Thread t = new Thread(() => rpcConsumerThread(name, cb));
+            Thread t = new Thread(() => RPCConsumerThread(name, cb));
             t.Start();
         }
-        private void rpcConsumerThread(string name, Func<string, string> cb)
+        private void RPCConsumerThread(string name, Func<string, string> cb)
         {
             var factory = config.CreateConnection();
             using (var connection = factory.CreateConnection())

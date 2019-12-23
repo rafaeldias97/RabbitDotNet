@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>RabbitMQLibrary</PackageId>
+    <Authors>rafael.dias</Authors>
+    <Company>RabbitMQLibrary</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <SignAssembly>false</SignAssembly>
+    <Product>RabbitMQLibrary</Product>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

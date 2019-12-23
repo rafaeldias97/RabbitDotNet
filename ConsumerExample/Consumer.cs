@@ -23,7 +23,7 @@ namespace ConsumerExample
             });
 
             // Consumer RPC
-            rb.rpcConsumer("teste.a", (x) =>
+            rb.RPCConsumer("teste.a", (x) =>
             {
                 Console.WriteLine(x);
                 return "KKKK eu sou o melhor";

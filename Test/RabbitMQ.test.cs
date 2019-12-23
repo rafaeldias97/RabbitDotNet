@@ -1,6 +1,8 @@
+using FluentAssertions;
 using RabbitMQ.Abstraction;
 using RabbitMQ.Interfaces;
 using RabbitMQ.Models;
+using System.Threading;
 using Xunit;
 
 namespace Test
@@ -18,36 +20,47 @@ namespace Test
                 ).Start();
         }
 
-        [Fact]
-        public void Consumer()
+        [Theory]
+        [InlineData("test1")]
+        [InlineData("second message")]
+        public void Publisher_Consumer(string message)
         {
+            Thread publisher = new Thread(() =>
+            {
+                rb.Publisher("queue.topic", message);
+            });
+
+
             rb.On("queue.topic", (res) =>
             {
-                Assert.Equal(res, "message");
+                res.Should().Be(message, $"The message should be {message}");
             });
+
+            publisher.Start();
+            //System.Console.ReadKey();
         }
 
-        [Fact]
-        public void Publisher()
+        [Theory]
+        [InlineData("test1", "retorno1")]
+        [InlineData("second message", "retorno 2")]
+        public void RPCPublisherConsumer(string message, string callback)
         {
-            rb.publisher("queue.topic", "message");
-        }
+            Thread t1 = new Thread(() => { 
+                rb.RPCConsumer("queuerpc.topic", (res) =>
+                {
+                    res.Should().Be(message, $"The message should be {message}");
+                    return callback;
+                });
+            });
 
-        [Fact]
-        public void RPCConsumer()
-        {
-            rb.rpcConsumer("queuerpc.topic", (res) =>
+            Thread t2 = new Thread(() =>
             {
-                Assert.Equal(res, "message to consumer rpc");
-                return "response to sender";
+                var res = rb.RPCPublisher("queuerpc.topic", message);
+                res.Should().Be(callback, $"The callback should be {callback}");
             });
-        }
 
-        [Fact]
-        public void RPCPublisher()
-        {
-            var res = rb.rpcPublisher("queuerpc.topic", "message to consumer rpc");
-            Assert.Equal(res, "response to sender");
+            t1.Start();
+            t2.Start();
         }
     }
 }
